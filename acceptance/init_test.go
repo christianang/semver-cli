@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"os/exec"
@@ -28,11 +28,11 @@ var _ = AfterSuite(func() {
 	gexec.CleanupBuildArtifacts()
 })
 
-func semver(args ...string) (string, int) {
+func semver(args ...string) (string, string, int) {
 	cmd := exec.Command(pathToSemverCLI, args...)
 	session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).NotTo(HaveOccurred())
 	Eventually(session).Should(gexec.Exit())
 
-	return string(session.Out.Contents()), session.ExitCode()
+	return string(session.Out.Contents()), string(session.Err.Contents()), session.ExitCode()
 }

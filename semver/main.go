@@ -13,6 +13,7 @@ func main() {
 
 	commandSet := cmd.Set{}
 	commandSet["compare"] = cmd.NewCompare(os.Stdout, os.Stderr)
+	commandSet["help"] = cmd.NewHelp(os.Stdout, os.Stderr)
 
 	err := commandSet[command].Execute(args)
 	if err != nil {

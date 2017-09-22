@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 )
 
 var _ = DescribeTable("Compare", func(version1, version2, expectedReturn string) {
-	stdout, exitCode := semver("compare", version1, version2)
+	stdout, _, exitCode := semver("compare", version1, version2)
 	Expect(exitCode).To(Equal(0))
 	Expect(stdout).To(Equal(fmt.Sprintf("%s\n", expectedReturn)))
 },
