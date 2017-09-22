@@ -27,12 +27,12 @@ func NewCompare(stdout, stderr io.Writer) Compare {
 func (c Compare) Execute(args []string) error {
 	v1, err := semverMake(args[0])
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	v2, err := semverMake(args[1])
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	c.stdout.Write([]byte(fmt.Sprintf("%d\n", semverCompare(v1, v2))))

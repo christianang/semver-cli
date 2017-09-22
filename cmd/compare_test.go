@@ -2,6 +2,7 @@ package cmd_test
 
 import (
 	"bytes"
+	"errors"
 
 	"github.com/blang/semver"
 	"github.com/christianang/semver-cli/cmd"
@@ -52,6 +53,24 @@ var _ = Describe("Compare", func() {
 			Expect(fakeSemver.MakeArgsForCall(0)).To(Equal("1.11.5"))
 			Expect(fakeSemver.MakeArgsForCall(1)).To(Equal("1.12.5"))
 			Expect(stdout.String()).To(Equal("9999\n"))
+		})
+
+		Context("when an error occurs", func() {
+			Context("when the first semver is invalid", func() {
+				It("returns an error", func() {
+					fakeSemver.MakeReturnsOnCall(0, semver.Version{}, errors.New("failed to make"))
+					err := command.Execute([]string{"1.x.x.x", "1.12.5"})
+					Expect(err).To(MatchError("failed to make"))
+				})
+			})
+
+			Context("when the first semver is invalid", func() {
+				It("returns an error", func() {
+					fakeSemver.MakeReturnsOnCall(1, semver.Version{}, errors.New("failed to make"))
+					err := command.Execute([]string{"1.x.x.x", "1.12.5"})
+					Expect(err).To(MatchError("failed to make"))
+				})
+			})
 		})
 	})
 })
