@@ -17,6 +17,11 @@ func NewHelp(stdout, stderr io.Writer) Help {
 }
 
 func (c Help) Execute(args []string) error {
-	c.stderr.Write([]byte("Usage: semver [COMMAND]\n"))
+	c.stderr.Write([]byte(`Usage: semver COMMAND [OPTIONS]
+
+Commands:
+  help                        Prints usage.
+  compare <version> <version> Compares two versions.
+`))
 	return nil
 }
